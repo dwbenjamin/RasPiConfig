@@ -17,5 +17,17 @@ module RasPiConfig
       puts "v#{RasPiConfig::VERSION}"
     end
     map %w(--version -v) => :version
+
+    desc 'spi ACTION', 'Command description...'
+    method_option :help, aliases: '-h', type: :boolean,
+                         desc: 'Display usage information'
+    def spi(action)
+      if options[:help]
+        invoke :help, ['spi']
+      else
+        require_relative 'commands/spi'
+        RasPiConfig::Commands::Spi.new(action, options).execute
+      end
+    end
   end
 end
